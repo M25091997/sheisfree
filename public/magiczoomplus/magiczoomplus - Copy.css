@@ -1438,10 +1438,3 @@ a[data-zoom-id] img,
     opacity: 0.2;
     filter: alpha(opacity = 20);
 }
-#mz-1202966883376 > figure.mz-figure > #crMz225326522380, #mz-1202966883376 > figure.mz-figure > #crMz225326522380 > #mzCrA225326522380, html body .mz-expand > #crMz225326522380, html body .mz-expand > #crMz225326522380 > #mzCrA225326522380 {
-    display: none!important;
-    visibility: hidden!important;
-    color: rgb(255, 0, 0) !important;
-    font-size: 11px !important;
-    z-index: 2147483647 !important;
-}
