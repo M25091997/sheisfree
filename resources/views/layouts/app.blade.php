@@ -19,6 +19,10 @@
 
         <!-- Tailwind CSS & JS -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- jQuery first -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <link rel="stylesheet" href="{{ asset('magiczoomplus/magiczoomplus.css') }}" />
     </head>
 
@@ -32,10 +36,37 @@
             @yield('content')
         </main>
 
-        <!-- Footer -->
+
         @include('partials.site-info')
         @include('partials.footer')
+
+        <!-- Magic Zoom JS -->
         <script src="{{ asset('magiczoomplus/magiczoomplus.js') }}"></script>
+
+        <!-- Page specific scripts -->
+        @stack('scripts')
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                if (Notification.permission === "granted") {
+                    new Notification("👋 Welcome!", {
+                        body: "Thanks for visiting our site 🎉",
+                        icon: "/icon.png"
+                    });
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === "granted") {
+                            new Notification("✅ You enabled notifications!", {
+                                body: "We’ll keep you updated with offers.",
+                                icon: "/icon.png"
+                            });
+                        }
+                    });
+                }
+            });
+        </script>
+
+
     </body>
 
 </html>

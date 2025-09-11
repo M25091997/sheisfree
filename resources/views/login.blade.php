@@ -44,9 +44,11 @@
                             class="w-full text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Sign in
                         </button>
+
+                        <!-- Sign up link -->
                         <p class="text-sm text-gray-500 dark:text-gray-400">
                             Don’t have an account yet?
-                            <a href="javascript:0"
+                            <a href="javascript:void(0);" id="openRegisterModal"
                                 class="font-medium text-yellow-600 hover:underline dark:text-yellow-500">Sign up</a>
                         </p>
                     </form>
@@ -68,7 +70,7 @@
 
                     <div class="flex items-start justify-center text-center gap-6 mt-6">
                         <!-- User -->
-                        <div class="w-1/2 flex flex-col items-center ">
+                        <div class="w-1/2 flex flex-col items-center border-r border-gray-500 pr-6">
                             <h2 class="text-2xl font-semibold mb-6">User</h2>
                             <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
                                 alt="User" />
@@ -96,4 +98,60 @@
 
     </div>
 
+
+    <!-- Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+        <div class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-lg shadow-lg relative p-6">
+            <!-- Close -->
+            <button id="closeRegisterModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+                ✕
+            </button>
+
+            <h1 class="text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
+                Not a member? <br> Register — it’s free 🎉
+            </h1>
+            <p class="mt-4 text-gray-600 dark:text-gray-300 text-sm">
+                Create your free account today and explore everything Sheishere has to offer.
+            </p>
+
+            <div class="flex items-start justify-center text-center gap-6 mt-6">
+                <!-- User -->
+                <div class="w-1/2 flex flex-col items-center border-r border-gray-500 pr-6">
+                    <h2 class="text-2xl font-semibold mb-6">User</h2>
+                    <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
+                        alt="User" />
+                    <a href="{{ route('register') }}?type=user"
+                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                        Register
+                    </a>
+                </div>
+
+                <!-- Advertiser -->
+                <div class="w-1/2 flex flex-col items-center">
+                    <h2 class="text-2xl font-semibold mb-6">Advertiser</h2>
+                    <img src="{{ asset('storage/gallery/icon/influencer.png') }}" class="w-28 h-28 object-contain"
+                        alt="Advertiser" />
+                    <a href="{{ route('register') }}?type=advertiser"
+                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                        Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $("#openRegisterModal").click(function() {
+                $("#registerModal").removeClass("hidden");
+            });
+
+            $("#closeRegisterModal, #registerModal").click(function(e) {
+                if (e.target.id === "registerModal" || e.target.id === "closeRegisterModal") {
+                    $("#registerModal").addClass("hidden");
+                }
+            });
+        });
+    </script>
+@endpush
