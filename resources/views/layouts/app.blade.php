@@ -46,7 +46,7 @@
         <!-- Page specific scripts -->
         @stack('scripts')
 
-        <script>
+        {{-- <script>
             document.addEventListener("DOMContentLoaded", () => {
                 if (Notification.permission === "granted") {
                     new Notification("👋 Welcome!", {
@@ -64,7 +64,7 @@
                     });
                 }
             });
-        </script>
+        </script> --}}
 
 
     </body>

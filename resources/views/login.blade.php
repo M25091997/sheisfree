@@ -19,20 +19,20 @@
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                 email</label>
                             <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 placeholder="name@company.com" required>
                         </div>
                         <div>
                             <label for="password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                             <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 required>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <input id="remember" type="checkbox"
-                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600">
+                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-yellow-600 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="remember" class="ml-2 text-sm text-gray-500 dark:text-gray-300">Remember
                                     me</label>
                             </div>
@@ -41,7 +41,7 @@
                                 password?</a>
                         </div>
                         <button type="submit"
-                            class="w-full text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            class="w-full text-white bg-yellow-600 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Sign in
                         </button>
 
@@ -62,7 +62,7 @@
                 class="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 sm:p-8">
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Not a member? <br> Register — it’s free 🎉
+                        Not a member? <br> Register now — it’s free 🎉
                     </h1>
                     <p class="mt-4 text-gray-600 dark:text-gray-300 text-sm">
                         Create your free account today and explore everything Sheishere has to offer.
@@ -74,8 +74,10 @@
                             <h2 class="text-2xl font-semibold mb-6">User</h2>
                             <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
                                 alt="User" />
+                                <p>Keep updated on
+activity in your area! </p>   
                             <a href="{{ route('register') }}?type=user"
-                                class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                                class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Register
                             </a>
                         </div>
@@ -85,8 +87,9 @@
                             <h2 class="text-2xl font-semibold mb-6">Advertiser</h2>
                             <img src="{{ asset('storage/gallery/icon/influencer.png') }}" class="w-28 h-28 object-contain"
                                 alt="Advertiser" />
-                            <a href="{{ route('register') }}?type=advertiser"
-                                class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                                 <p>Get listed for free today! </p>
+                            <a href="{{ route('advertiser.register') }}?type=advertiser"
+                                class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Register
                             </a>
                         </div>
@@ -108,7 +111,7 @@
             </button>
 
             <h1 class="text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
-                Not a member? <br> Register — it’s free 🎉
+                Not a member? <br> Register now — it’s free 🎉
             </h1>
             <p class="mt-4 text-gray-600 dark:text-gray-300 text-sm">
                 Create your free account today and explore everything Sheishere has to offer.
@@ -120,8 +123,10 @@
                     <h2 class="text-2xl font-semibold mb-6">User</h2>
                     <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
                         alt="User" />
+                        <p>Keep updated on
+activity in your area! </p>                        
                     <a href="{{ route('register') }}?type=user"
-                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                         Register
                     </a>
                 </div>
@@ -131,8 +136,9 @@
                     <h2 class="text-2xl font-semibold mb-6">Advertiser</h2>
                     <img src="{{ asset('storage/gallery/icon/influencer.png') }}" class="w-28 h-28 object-contain"
                         alt="Advertiser" />
-                    <a href="{{ route('register') }}?type=advertiser"
-                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                        <p>Get listed
+for free today! </p>                    <a href="{{ route('advertiser.register') }}?type=advertiser"
+                        class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                         Register
                     </a>
                 </div>

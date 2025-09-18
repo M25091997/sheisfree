@@ -27,7 +27,7 @@
 
         <!-- Right Sidebar -->
         <aside class="bg-gray-800 rounded-lg p-2 shadow-md">
-            <h2 class="text-lg font-semibold px-2 mb-3">What's new?</h2>
+            <h2 class="text-lg font-semibold px-2 mb-3 text-white">What's new?</h2>
             <div class="space-y-4">
                 @include('components.review-card')
 

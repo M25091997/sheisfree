@@ -15,4 +15,8 @@ class AuthController extends Controller
     {
         return view('register');
     }
+    public function advertiser()
+    {
+        return view('advertiser-register');
+    }
 }

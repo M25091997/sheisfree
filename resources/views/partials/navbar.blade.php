@@ -20,7 +20,7 @@
                     stroke="currentColor">
                     <path d="m5 8 6 6m-7 0 6-6 2-3M2 5h12M7 2h1m14 20-5-10-5 10m4-4h6" />
                 </svg>
-                <span>Language</span>
+                <span> Eng</span>
             </button>
 
             <!-- Sign in -->
