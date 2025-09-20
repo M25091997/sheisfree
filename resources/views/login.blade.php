@@ -14,7 +14,7 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Sign in to your account
                     </h1>
-                    <form class="space-y-6" action="#">
+                    <form class="space-y-6" action="{{ route('login') }}" method="POST">
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                 email</label>
@@ -74,9 +74,9 @@
                             <h2 class="text-2xl font-semibold mb-6">User</h2>
                             <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
                                 alt="User" />
-                                <p>Keep updated on
-activity in your area! </p>   
-                            <a href="{{ route('register') }}?type=user"
+                            <p>Keep updated on
+                                activity in your area! </p>
+                            <a href="{{ oute('user.register') }}"
                                 class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Register
                             </a>
@@ -87,8 +87,8 @@ activity in your area! </p>
                             <h2 class="text-2xl font-semibold mb-6">Advertiser</h2>
                             <img src="{{ asset('storage/gallery/icon/influencer.png') }}" class="w-28 h-28 object-contain"
                                 alt="Advertiser" />
-                                 <p>Get listed for free today! </p>
-                            <a href="{{ route('advertiser.register') }}?type=advertiser"
+                            <p>Get listed for free today! </p>
+                            <a href="{{ route('advertiser.register') }}"
                                 class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Register
                             </a>
@@ -123,9 +123,9 @@ activity in your area! </p>
                     <h2 class="text-2xl font-semibold mb-6">User</h2>
                     <img src="{{ asset('storage/gallery/icon/male.png') }}" class="w-28 h-28 object-contain"
                         alt="User" />
-                        <p>Keep updated on
-activity in your area! </p>                        
-                    <a href="{{ route('register') }}?type=user"
+                    <p>Keep updated on
+                        activity in your area! </p>
+                    <a href="{{ route('user.register') }}?type=user"
                         class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                         Register
                     </a>
@@ -136,8 +136,8 @@ activity in your area! </p>
                     <h2 class="text-2xl font-semibold mb-6">Advertiser</h2>
                     <img src="{{ asset('storage/gallery/icon/influencer.png') }}" class="w-28 h-28 object-contain"
                         alt="Advertiser" />
-                        <p>Get listed
-for free today! </p>                    <a href="{{ route('advertiser.register') }}?type=advertiser"
+                    <p>Get listed
+                        for free today! </p> <a href="{{ route('advertiser.register') }}?type=advertiser"
                         class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                         Register
                     </a>

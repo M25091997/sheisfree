@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function showLoginForm()
     {
         return view('login');
     }
@@ -15,8 +18,58 @@ class AuthController extends Controller
     {
         return view('register');
     }
-    public function advertiser()
+    public function advertiser_register()
     {
         return view('advertiser-register');
+    }
+
+    public function advertiser_store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|string|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'advertiser',
+            'is_active' => false,
+            'ip_address' => $request->ip(),
+            'notification_token' => $request->input('notification_token', null),
+        ]);
+
+        return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
+    }
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email|string',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if (Auth::guard('user')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/dashboard')->with('success', 'Welcome back!');
+        }
+
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('user')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'Logged out successfully.');
     }
 }
