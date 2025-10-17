@@ -11,23 +11,25 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (auth()->check()) {
+            return redirect('/');
+        }
         return view('login');
     }
 
-    public function register()
+    public function user_register()
     {
+        if (auth()->check()) {
+            return redirect('/');
+        }
         return view('register');
     }
-    public function advertiser_register()
-    {
-        return view('advertiser-register');
-    }
 
-    public function advertiser_store(Request $request)
+    public function user_store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
+            'email' => 'required|email|string|lowercase|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -35,10 +37,44 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'advertiser',
-            'is_active' => false,
+            'role' => 'user',
+            'is_active' => true,
             'ip_address' => $request->ip(),
             'notification_token' => $request->input('notification_token', null),
+        ]);
+
+        return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
+    }
+    public function advertiser_register()
+    {
+        if (auth()->check()) {
+            return redirect('/');
+        }
+
+        return view('advertiser-register');
+    }
+
+    public function advertiser_store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|string|lowercase|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'type' => 'required|in:individual,agency',
+            'accept_condition' => 'required'
+        ], [
+            "accept_condition" => 'Please accept the terms and conditions'
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'advertiser', // user, Individual advertiser, es agency
+            'is_active' => true,
+            'ip_address' => $request->ip(),
+            'notification_token' => $request->input('notification_token', null),
+            'type' =>  $validated['type'],
         ]);
 
         return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
@@ -52,7 +88,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        if (Auth::guard('user')->attempt($credentials, $request->filled('remember'))) {
+        if (Auth::guard('web')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended('/dashboard')->with('success', 'Welcome back!');

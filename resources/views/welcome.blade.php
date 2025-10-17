@@ -3,6 +3,9 @@
 @section('title', 'Home || Sheishere')
 
 @section('content')
+@push('explore')
+        @include('partials.explore')
+@endpush
     <!-- Main Content -->
     <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 px-4 py-6">
 

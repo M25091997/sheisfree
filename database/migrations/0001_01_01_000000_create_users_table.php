@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('device_id')->nullable();
             $table->string('notification_token')->nullable();
             $table->boolean('is_active');
+            $table->string('type')->nullable();           
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -15,12 +15,14 @@
                         Sign in to your account
                     </h1>
                     <form class="space-y-6" action="{{ route('login') }}" method="POST">
+                        @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                 email</label>
                             <input type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 placeholder="name@company.com" required>
+                                 @error('name')<span class="text-red-400 text-sm">{{$message}}</span>@enderror
                         </div>
                         <div>
                             <label for="password"
@@ -28,6 +30,8 @@
                             <input type="password" name="password" id="password" placeholder="••••••••"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 required>
+                                 @error('password')<span class="text-red-400 text-sm">{{$message}}</span>@enderror
+
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
@@ -76,7 +80,7 @@
                                 alt="User" />
                             <p>Keep updated on
                                 activity in your area! </p>
-                            <a href="{{ oute('user.register') }}"
+                            <a href="{{ route('user.register') }}"
                                 class="mt-4 inline-block w-full text-center text-white bg-yellow-600 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Register
                             </a>

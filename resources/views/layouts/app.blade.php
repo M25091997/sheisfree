@@ -24,12 +24,18 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <link rel="stylesheet" href="{{ asset('magiczoomplus/magiczoomplus.css') }}" />
+
+        <!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
     </head>
 
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-gray-200 min-h-screen flex flex-col">
 
         <!-- Navbar -->
         @include('partials.navbar')
+
+           @stack('explore')
 
         <!-- Main Content -->
         <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -66,7 +72,73 @@
             });
         </script> --}}
 
+        
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const mobileBtn = document.getElementById("mobileMenuBtn");
+        const navMenu = document.getElementById("navbarMenu");
+        const profileBtn = document.getElementById("profileMenuBtn");
+        const profileMenu = document.getElementById("profileMenu");
+
+        // Mobile menu toggle
+        if (mobileBtn) {
+            mobileBtn.addEventListener("click", () => {
+                navMenu.classList.toggle("hidden");
+            });
+        }
+
+        // Profile dropdown toggle
+        if (profileBtn) {
+            profileBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                profileMenu.classList.toggle("hidden");
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.add("hidden");
+                }
+            });
+        }
+    });
+</script>
+
+
+
+<script>
+    toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-bottom-right",
+  "preventDuplicates": true,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",         // 5 seconds
+  "extendedTimeOut": "1000", // Extra time if hovered
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+</script>
+
+       @if(session('success'))
+            <script>
+                toastr.success("{{ session('success') }}");
+            </script>
+            @endif
+
+            @if(session('error'))
+            <script>
+                toastr.error("{{ session('error') }}");
+            </script>
+            @endif
     </body>
 
 </html>
