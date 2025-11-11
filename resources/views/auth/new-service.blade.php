@@ -50,23 +50,33 @@
             <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Name -->
                 <div class="sm:col-span-2">
-                    <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                    <input id="name" name="name" type="text" placeholder="Enter name"
-                        class="mt-2 block w-full  rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+                    <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">
+                        Name
+                    </label>
+                    <input id="name" name="name" type="text" value="{{ old('name', $profile->name ?? '') }}"
+                        placeholder="Enter name"
+                        class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                    @error('name')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- User Type -->
                 <div>
                     <label for="userType" class="block text-sm font-medium text-gray-900 dark:text-white">User Type</label>
-                    <select id="userType" name="userType"
+                    <select id="userType" name="user_type"
                         class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40">
-                        <option>Escort</option>
-                        <option>Masseuse</option>
-                        <option>Dominatrix</option>
-                        <option>Companion</option>
-                        <option>Adult Performer</option>
-                        <option>Escort Agency</option>
+                        <option value="">Select...</option>
+                        <option value="Escort">Escort</option>
+                        <option value="Masseuse">Masseuse</option>
+                        <option value="Dominatrix">Dominatrix</option>
+                        <option value="Companion">Companion</option>
+                        <option value="Adult Performer">Adult Performer</option>
+                        <option value="Escort Agency">Escort Agency</option>
                     </select>
+                    @error('user_type')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- City -->
@@ -74,23 +84,50 @@
                     <label for="city" class="block text-sm font-medium text-gray-900 dark:text-white">City</label>
                     <select id="city" name="city"
                         class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40">
-                        <option>Bangalore</option>
-                        <option>Mumbai</option>
-                        <option>Delhi</option>
-                        <option>Chennai</option>
-                        <option>Kolkata</option>
+                        <option value="">Select...</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Other">Other</option>
                     </select>
+                    @error('city')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- About -->
                 <div class="sm:col-span-3">
-                    <label for="about" class="block text-sm font-medium text-gray-900 dark:text-white">About</label>
-                    <textarea id="about" name="about" rows="6" placeholder="Write a few sentences about yourself..."
-                        class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40"></textarea>
+                    <label for="about" class="block text-sm font-medium text-gray-900 dark:text-white">
+                        About
+                    </label>
+
+                    <!-- Hidden textarea (for form submission) -->
+                    <textarea id="about" name="about" class="hidden" rows="6">
+        {{ old('about', $profile->about ?? '') }}
+    </textarea>
+
+                    <!-- Quill Editor Container -->
+                    <div id="about-editor"
+                        class="mt-2 block w-full rounded-lg border border-gray-300 dark:border-gray-700
+               bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
+                        style="min-height:150px;">
+                    </div>
+
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                        Write a few sentences about yourself...
+                    </p>
+
+                    @error('about')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+
                 </div>
 
+
                 <!-- Cover Photo -->
-                <div class="w-full mx-auto sm:col-span-3 border-gray-300">
+                <div class="w-full mx-auto sm:col-span-3 border-gray-300 mt-18">
                     <label for="cover-photo" class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Upload
                         Photos</label>
 
@@ -111,6 +148,10 @@
                         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF — up to 6MB each (400×400px
                             recommended)</p>
                     </div>
+
+                    @error('images')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 {{-- <div class="sm:col-span-3">
                     <label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover Photo</label>
@@ -139,68 +180,61 @@
         <section>
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white border-b pb-4">Contact Information</h2>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Provide accurate details to receive notifications.</p>
-            <!-- Phone Row 1 -->
-            <div class="space-y-3 mb-5 mt-5">
-                <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">Phone 1</label>
-                <div class="flex flex-wrap items-center gap-3">
-                    <select
-                        class="rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500">
-                        <option>+91</option>
-                        <option>+1</option>
-                        <option>+44</option>
-                        <option>+61</option>
-                    </select>
-                    <input type="tel" placeholder="Enter valid phone no"
-                        class="flex-1 min-w-[180px] rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+            <div id="phones-wrapper" class="space-y-5">
 
-                    <div class="flex flex-wrap items-center gap-3 text-sm text-gray-900 dark:text-gray-300">
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-green-500" /> WhatsApp
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-green-400" /> WeChat
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-sky-500" /> Telegram
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-blue-600" /> Signal
-                        </label>
+                <!-- Initial Phone Row -->
+                <div class="phone-row space-y-3">
+                    <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">Phone</label>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <!-- Country Code -->
+                        <select name="phone_code[]"
+                            class="rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="+91">+91</option>
+                            <option value="+1">+1</option>
+                            <option value="+44">+44</option>
+                            <option value="+61">+61</option>
+                        </select>
+
+                        <!-- Phone Number -->
+                        <input type="tel" name="phone_number[]" placeholder="Enter valid phone no"
+                            class="flex-1 min-w-[180px] rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+
+                        <!-- Messaging App Checkboxes -->
+                        <div class="flex flex-wrap items-center gap-3 text-sm text-gray-900 dark:text-gray-300">
+                            <label class="flex items-center gap-1">
+                                <input type="checkbox" name="is_whatsapp[]" class="accent-green-500" /> WhatsApp
+                            </label>
+                            <label class="flex items-center gap-1">
+                                <input type="checkbox" name="is_wechat[]" class="accent-green-400" /> WeChat
+                            </label>
+                            <label class="flex items-center gap-1">
+                                <input type="checkbox" name="is_telegram[]" class="accent-sky-500" /> Telegram
+                            </label>
+                            <label class="flex items-center gap-1">
+                                <input type="checkbox" name="is_signal[]" class="accent-blue-600" /> Signal
+                            </label>
+                        </div>
+
+                        <button type="button" class="remove-phone text-red-500 text-sm ml-2">🗑️</button>
                     </div>
+
+                    @error('phone_number.0')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
+
             </div>
 
-            <!-- Phone Row 2 -->
-            <div class="space-y-3 mb-5">
-                <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">Phone 2</label>
-                <div class="flex flex-wrap items-center gap-3">
-                    <select
-                        class="rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500">
-                        <option>+91</option>
-                        <option>+1</option>
-                        <option>+44</option>
-                        <option>+61</option>
-                    </select>
-                    <input type="tel" placeholder="Enter valid phone no"
-                        class="flex-1 min-w-[180px] rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+            <!-- Add Phone Button -->
+            <button type="button" id="add-phone-btn"
+                class="mt-3 bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-sm">
+                + Add Phone
+            </button>
+        </section>
 
-                    <div class="flex flex-wrap items-center gap-3 text-sm text-gray-900 dark:text-gray-300">
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-green-500" /> WhatsApp
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-green-400" /> WeChat
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-sky-500" /> Telegram
-                        </label>
-                        <label class="flex items-center gap-1">
-                            <input type="checkbox" class="accent-blue-600" /> Signal
-                        </label>
-                    </div>
-                </div>
-            </div>
 
+        <section>
             <!-- Show Contact Form -->
             <div class="flex items-center gap-2 pt-4 border-t">
                 <input id="show-contact" type="checkbox" class="accent-indigo-600">
@@ -211,15 +245,23 @@
 
             <!-- Email -->
             <div class="mb-3">
-                <input type="email" placeholder="you@example.com"
+                <input type="email" name="email" value="{{ old('email', $profile->email ?? '') }}"
+                    placeholder="you@gmail.com"
                     class="w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+                @error('email')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Website -->
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">Website</label>
-                <input type="url" placeholder="https://example.com"
+                <input type="url" name="website" value="{{ old('website', $profile->website ?? '') }}"
+                    placeholder="https://example.com"
                     class="mt-2 w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+                @error('website')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- OnlyFans -->
@@ -227,8 +269,12 @@
                 <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">
                     OnlyFans <span class="text-red-500 text-xs font-semibold ml-1">new!</span>
                 </label>
-                <input type="url" placeholder="https://onlyfans.com/username"
+                <input type="url" name="online_url" value="{{ old('online_url', $profile->online_url ?? '') }}"
+                    placeholder="https://onlyfans.com/username"
                     class="mt-2 w-full rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+                @error('online_url')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
 
@@ -237,13 +283,13 @@
                 <h3 class="mb-3 text-lg font-semibold text-gray-900 dark:text-white">Select Services</h3>
                 <ul
                     class="flex flex-wrap w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    @foreach (['Vue JS', 'React', 'Angular', 'Laravel'] as $service)
+                    @foreach (\App\Models\ServiceType::where('is_active', true)->get() as $service)
                         <li class="w-1/2 sm:w-1/4 border-b sm:border-b-0 border-gray-200 sm:border-r dark:border-gray-600">
                             <label class="flex items-center p-3 cursor-pointer">
                                 <input type="checkbox" name="services[]"
-                                    value="{{ strtolower(str_replace(' ', '_', $service)) }}"
+                                    value="{{ strtolower(str_replace(' ', '_', $service->name)) }}"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500">
-                                <span class="ml-2">{{ $service }}</span>
+                                <span class="ml-2">{{ $service->name }}</span>
                             </label>
                         </li>
                     @endforeach
@@ -252,8 +298,9 @@
 
 
             <!-- Pricing -->
+            <!-- Pricing -->
             <div class="mt-5">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pricing</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Pricing</h3>
 
                 <div class="space-y-4">
                     <!-- Incall -->
@@ -272,8 +319,10 @@
                             </div>
                             <select name="pricing[incall][currency]"
                                 class="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                                <option value="USD">USD</option>
-                                <option value="INR">INR</option>
+                                <option value="USD" {{ old('pricing.incall.currency') == 'USD' ? 'selected' : '' }}>USD
+                                </option>
+                                <option value="INR" {{ old('pricing.incall.currency') == 'INR' ? 'selected' : '' }}>INR
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -294,13 +343,16 @@
                             </div>
                             <select name="pricing[outcall][currency]"
                                 class="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                                <option value="USD">USD</option>
-                                <option value="INR">INR</option>
+                                <option value="USD" {{ old('pricing.outcall.currency') == 'USD' ? 'selected' : '' }}>
+                                    USD</option>
+                                <option value="INR" {{ old('pricing.outcall.currency') == 'INR' ? 'selected' : '' }}>
+                                    INR</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
+
 
 
 
@@ -324,11 +376,14 @@
                         </label>
 
                         <label class="flex items-center space-x-2 text-sm text-gray-900 dark:text-gray-300">
-                            <input type="radio" name="gender" value="transsexual" checked
+                            <input type="radio" name="gender" value="transsexual"
                                 class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600" />
                             <span>Transsexual</span>
                         </label>
                     </div>
+                    @error('gender')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Orientation / Info Grid -->
@@ -356,6 +411,9 @@
                             <span>Lesbian or Gay</span>
                         </label>
                     </div>
+                    @error('orientation')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2">
@@ -367,22 +425,31 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Ethnicity</option>
                         </select>
+                        @error('ethnicity')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Height -->
                     <div>
                         <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Height
                             (cm)</label>
-                        <input type="number" id="height" name="height" placeholder="170"
+                        <input type="number" name="height" id="height" name="height" placeholder="170"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+                        @error('height')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Age -->
                     <div>
                         <label for="age"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-                        <input type="number" id="age" name="age" placeholder="25"
+                        <input type="number" name="age" id="age" name="age" placeholder="25"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+                        @error('age')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Bust -->
@@ -393,6 +460,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Bust Size</option>
                         </select>
+                        @error('bust')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Hair Color -->
@@ -403,6 +473,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Hair Color</option>
                         </select>
+                        @error('hair_color')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Nationality -->
@@ -413,10 +486,12 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Nationality</option>
                         </select>
+                        @error('nationality')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
-
 
 
 
@@ -424,48 +499,55 @@
             <div class="mb-10 mt-5">
 
                 <!-- Languages Section -->
-                <div>
+                <div id="languages-section">
                     <h2 class="text-lg font-semibold mb-4">Languages I speak</h2>
 
-                    <!-- Language Row -->
-                    <div class="space-y-4">
-                        <div class="flex flex-wrap items-center gap-4">
-                            <select
+                    <!-- Language Rows Container -->
+                    <div id="language-rows" class="space-y-4">
+                        <div class="flex flex-wrap items-center gap-4 language-row">
+                            <select name="languages[0][language]"
                                 class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 p-2.5">
-                                <option>Select language...</option>
-                                <option>English</option>
-                                <option>Hindi</option>
-                                <option>Spanish</option>
+                                <option value="">Select language...</option>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <!-- Add more languages as needed -->
                             </select>
 
                             <div class="flex items-center gap-4 text-sm">
                                 <label class="flex items-center gap-1">
-                                    <input type="radio" name="lang1" class="text-yellow-500 focus:ring-yellow-500" />
+                                    <input type="radio" name="languages[0][fluency]" value="Fluent"
+                                        class="text-yellow-500 focus:ring-yellow-500" />
                                     Fluent
                                 </label>
                                 <label class="flex items-center gap-1">
-                                    <input type="radio" name="lang1" class="text-yellow-500 focus:ring-yellow-500" />
+                                    <input type="radio" name="languages[0][fluency]" value="Good"
+                                        class="text-yellow-500 focus:ring-yellow-500" />
                                     Good
                                 </label>
                                 <label class="flex items-center gap-1">
-                                    <input type="radio" name="lang1" class="text-yellow-500 focus:ring-yellow-500" />
+                                    <input type="radio" name="languages[0][fluency]" value="Basic"
+                                        class="text-yellow-500 focus:ring-yellow-500" />
                                     Basic
                                 </label>
                             </div>
 
-                            <button type="button" class="text-gray-400 hover:text-red-400 transition"
+                            <button type="button" class="remove-language text-gray-400 hover:text-red-400 transition"
                                 title="Remove language">
                                 🗑️
                             </button>
                         </div>
                     </div>
 
-                    <button type="button"
+                    <button type="button" id="add-language"
                         class="mt-4 bg-blue-600 hover:bg-blue-500 text-black px-3 py-1 rounded font-medium">
                         + Add language
                     </button>
                 </div>
             </div>
+
 
             <!-- Shaved -->
             <div">
@@ -556,5 +638,141 @@
             });
         </script>
     @endpush
+
+
+    @push('scripts')
+        <!-- Quill CDN -->
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const aboutTextarea = document.querySelector('#about');
+                const editorContainer = document.querySelector('#about-editor');
+
+                // Initialize Quill
+                const quill = new Quill(editorContainer, {
+                    theme: 'snow',
+                    placeholder: 'Write about yourself...',
+                });
+
+                // Set initial content
+                quill.root.innerHTML = aboutTextarea.value;
+
+                // Sync content to hidden textarea on change
+                quill.on('text-change', function() {
+                    aboutTextarea.value = quill.root.innerHTML;
+                });
+
+                // 🔄 Watch for theme changes (light <-> dark)
+                const observer = new MutationObserver(() => {
+                    const isDark = document.documentElement.classList.contains('dark');
+                    editorContainer.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
+                    editorContainer.style.color = isDark ? '#f9fafb' : '#111827';
+                });
+                observer.observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            });
+        </script>
+    @endpush
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const addBtn = document.getElementById('add-language');
+                const rowsContainer = document.getElementById('language-rows');
+                let languageIndex = rowsContainer.querySelectorAll('.language-row').length;
+
+                // Function to create a new language row
+                function createLanguageRow(index) {
+                    const div = document.createElement('div');
+                    div.className = 'flex flex-wrap items-center gap-4 language-row';
+                    div.innerHTML = `
+            <select name="languages[${index}][language]"
+                class="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 p-2.5">
+                <option value="">Select language...</option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+            </select>
+
+            <div class="flex items-center gap-4 text-sm">
+                <label class="flex items-center gap-1">
+                    <input type="radio" name="languages[${index}][fluency]" value="Fluent" class="text-yellow-500 focus:ring-yellow-500" />
+                    Fluent
+                </label>
+                <label class="flex items-center gap-1">
+                    <input type="radio" name="languages[${index}][fluency]" value="Good" class="text-yellow-500 focus:ring-yellow-500" />
+                    Good
+                </label>
+                <label class="flex items-center gap-1">
+                    <input type="radio" name="languages[${index}][fluency]" value="Basic" class="text-yellow-500 focus:ring-yellow-500" />
+                    Basic
+                </label>
+            </div>
+
+            <button type="button" class="remove-language text-gray-400 hover:text-red-400 transition" title="Remove language">
+                🗑️
+            </button>
+        `;
+                    return div;
+                }
+
+                // Add new language row
+                addBtn.addEventListener('click', () => {
+                    languageIndex++;
+                    const newRow = createLanguageRow(languageIndex);
+                    rowsContainer.appendChild(newRow);
+                });
+
+                // Remove language row
+                rowsContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('remove-language')) {
+                        const row = e.target.closest('.language-row');
+                        if (row) row.remove();
+                    }
+                });
+            });
+        </script>
+
+
+
+        <script>
+            const phonesWrapper = document.getElementById('phones-wrapper');
+            const addPhoneBtn = document.getElementById('add-phone-btn');
+
+            addPhoneBtn.addEventListener('click', () => {
+                const firstRow = phonesWrapper.querySelector('.phone-row');
+                const newRow = firstRow.cloneNode(true);
+
+                // Clear input values
+                newRow.querySelectorAll('input').forEach(input => {
+                    if (input.type === 'tel') input.value = '';
+                    else input.checked = false;
+                });
+
+                // Update error message if needed
+                newRow.querySelectorAll('p').forEach(p => p.remove());
+
+                phonesWrapper.appendChild(newRow);
+            });
+
+            // Delegate remove button click
+            phonesWrapper.addEventListener('click', e => {
+                if (e.target.classList.contains('remove-phone')) {
+                    const row = e.target.closest('.phone-row');
+                    if (phonesWrapper.querySelectorAll('.phone-row').length > 1) {
+                        row.remove();
+                    }
+                }
+            });
+        </script>
+    @endpush
+
+
 
 @endsection

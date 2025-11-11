@@ -42,10 +42,10 @@
                     <img src="https://via.placeholder.com/100" alt="Profile Picture"
                         class="w-24 h-24 rounded-full border-4 border-gray-700 mb-4">
                     <h3 class="text-lg font-semibold uppercase">{{ $user->name }}</h3>
-                    <p class="text-sm text-gray-400 mb-2">Web Developer</p>
+                    <p class="text-sm text-gray-400 mb-2 capitalize">{{ $user->type }}</p>
                     <span class="bg-green-600 text-xs px-2 py-1 rounded-md mb-4">Verified</span>
-                    <button class="bg-yellow-600 hover:bg-yellow-700 text-sm px-4 py-2 rounded-lg"><i
-                            class="fas fa-edit    "></i> Edit</button>
+                    {{-- <button class="bg-yellow-600 hover:bg-yellow-700 text-sm px-4 py-2 rounded-lg"><i
+                            class="fas fa-edit"></i> Edit</button> --}}
                 </div>
 
                 <!-- Right Column (Timezone, Language, etc.) -->
@@ -98,8 +98,7 @@
 
                         <p class="text-sm text-gray-400">About</p>
                         <p class="text-sm mb-4">
-                            I am Joseph McFall, a fervent explorer navigating the intricate landscapes of web design,
-                            driven by an unyielding passion for Web 3 and Artificial Intelligence.
+                            {{ $user->about ?? 'N/A' }}
                         </p>
 
                         <p class="text-sm text-gray-400 mb-2">Social</p>
@@ -110,7 +109,7 @@
                         </div>
 
                         <p class="mt-4 text-sm text-gray-400">Location</p>
-                        <p class="font-medium">California, USA</p>
+                        <p class="font-medium"> {{ $user->city ?? 'N/A' }}</p>
                     </div>
 
                     <div>
@@ -118,18 +117,18 @@
                         <p class="font-medium mb-4">{{ $user->email }}</p>
 
                         <p class="text-sm text-gray-400">Home Address</p>
-                        <p class="font-medium mb-4">92 Miles Drive, Newark, NJ 07103, California</p>
+                        <p class="font-medium mb-4">{{ $user->address ?? 'N/A' }}</p>
 
                         <p class="text-sm text-gray-400">Phone</p>
-                        <p class="font-medium mb-4">+1 234 567 890</p>
+                        <p class="font-medium mb-4">{{ $user->phone ?? 'N/A' }}</p>
 
-                        <p class="text-sm text-gray-400">Software Skills</p>
+                        <p class="text-sm text-gray-400">Services</p>
                         <div class="flex gap-2 mt-2 text-lg">
-                            💻 🎨 🧠
+                            {{ $user->services ?? 'N/A' }}
                         </div>
 
                         <p class="mt-4 text-sm text-gray-400">Languages</p>
-                        <p class="font-medium">English, French, Spanish</p>
+                        <p class="font-medium">{{ $user->language ?? 'N/A' }}</p>
                     </div>
                 </div>
             </div>
