@@ -8,8 +8,10 @@ use App\Models\UserImage;
 use App\Models\UserPhone;
 use App\Models\UserService;
 use App\Models\UserLanguage;
+use App\Models\UserPrice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class UserProfileController extends Controller
 {
@@ -34,6 +36,7 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $validated = $request->validate([
             // Profile basic info
             'name' => 'required|string|max:255',
@@ -69,25 +72,30 @@ class UserProfileController extends Controller
             'images.*' => 'nullable|image|max:6144', // 6MB each
 
             // Phones
-            'phone_number.*' => 'nullable|string|max:20',
             'phone_code.*' => 'nullable|string|max:5',
-            'is_whatsapp.*' => 'nullable|boolean',
-            'is_wechat.*' => 'nullable|boolean',
-            'is_telegram.*' => 'nullable|boolean',
-            'is_signal.*' => 'nullable|boolean',
+            'phone_number.*' => 'nullable|string|max:20',
+            'is_whatsapp.*' => 'nullable',
+            'is_telegram.*' => 'nullable',
+            'is_signal.*' => 'nullable',
+            'is_wechat.*' => 'nullable',
 
             // Services
-            'services.*' => 'nullable|exists:service_types,id',
+            'services.*' => 'nullable|exists:service_types,name',
 
             // Languages
             'languages.*.name' => 'nullable|string',
             'languages.*.level' => 'nullable|in:Fluent,Good,Basic',
 
             // Pricing
-            'pricing.*.enabled' => 'nullable|boolean',
-            'pricing.*.amount' => 'nullable|numeric|min:0',
-            'pricing.*.currency' => 'nullable|string|max:3',
+            'pricing.incall.enabled' => 'sometimes',
+            'pricing.incall.amount' => 'nullable|numeric|min:0',
+            'pricing.incall.currency' => 'nullable|string|max:3',
+            'pricing.outcall.enabled' => 'sometimes',
+            'pricing.outcall.amount' => 'nullable|numeric|min:0',
+            'pricing.outcall.currency' => 'nullable|string|max:3',
         ]);
+
+        // return $request->all();
 
 
         DB::beginTransaction(); // Start transaction
@@ -141,45 +149,85 @@ class UserProfileController extends Controller
                     if ($number) {
                         UserPhone::create([
                             'user_profile_id' => $profile->id,
-                            'phone_code' => $request->phone_code[$key] ?? '+00',
-                            'phone_number' => $number,
-                            'is_whatsapp' => $request->is_whatsapp[$key] ?? false,
-                            'is_wechat' => $request->is_wechat[$key] ?? false,
-                            'is_telegram' => $request->is_telegram[$key] ?? false,
-                            'is_signal' => $request->is_signal[$key] ?? false,
+                            'phone_code'      => $request->phone_code[$key] ?? '+00',
+                            'phone_number'    => $number,
+                            'is_whatsapp'     => isset($request->is_whatsapp[$key]) && $request->is_whatsapp[$key] === 'on',
+                            'is_wechat'       => isset($request->is_wechat[$key]) && $request->is_wechat[$key] === 'on',
+                            'is_telegram'     => isset($request->is_telegram[$key]) && $request->is_telegram[$key] === 'on',
+                            'is_signal'       => isset($request->is_signal[$key]) && $request->is_signal[$key] === 'on',
                         ]);
                     }
                 }
             }
 
+
+
             // Services
             if ($request->services) {
-                foreach ($request->services as $service_id) {
-                    UserService::create([
-                        'user_profile_id' => $profile->id,
-                        'service_type_id' => $service_id,
-                    ]);
+                foreach ($request->services as $service) {
+                    if ($service) {
+                        UserService::create([
+                            'user_profile_id' => $profile->id,
+                            'name' => $service, // $service is already the string
+                        ]);
+                    }
                 }
             }
+
 
             // Languages
             if ($request->languages) {
                 foreach ($request->languages as $lang) {
-                    if ($lang['name']) {
+                    if (!empty($lang['language'])) {
                         UserLanguage::create([
                             'user_profile_id' => $profile->id,
-                            'name' => $lang['name'],
-                            'level' => $lang['level'] ?? 'Basic',
+                            'language' => $lang['language'],           // map 'language' to 'name'
+                            'fluency_level' => $lang['fluency'] ?? 'Basic', // map 'fluency' to 'level'
                         ]);
                     }
                 }
             }
-
             // Pricing
             if ($request->pricing) {
-                $profile->pricing = $request->pricing;
-                $profile->save();
+                // Incall
+                if (isset($request->pricing['incall'])) {
+                    $incall = $request->pricing['incall'];
+                    if (!empty($incall['enabled'])) {
+                        UserPrice::updateOrCreate(
+                            [
+                                'user_profile_id' => $profile->id,
+                                'service_type'    => 'incall'
+                            ],
+                            [
+                                'duration' => $incall['duration'] ?? null,
+                                'price'    => $incall['amount'] ?? null,
+                                'currency' => $incall['currency'] ?? 'INR',
+                                'is_active' => true
+                            ]
+                        );
+                    }
+                }
+
+                // Outcall
+                if (isset($request->pricing['outcall'])) {
+                    $outcall = $request->pricing['outcall'];
+                    if (!empty($outcall['enabled'])) {
+                        UserPrice::updateOrCreate(
+                            [
+                                'user_profile_id' => $profile->id,
+                                'service_type'    => 'outcall'
+                            ],
+                            [
+                                'duration' => $outcall['duration'] ?? null,
+                                'price'    => $outcall['amount'] ?? null,
+                                'currency' => $outcall['currency'] ?? 'INR',
+                                'is_active' => true
+                            ]
+                        );
+                    }
+                }
             }
+
             DB::commit(); // Commit if everything succeeds
             return redirect()->route('profiles.index')->with('success', 'Profile created successfully!');
         } catch (\Exception $e) {

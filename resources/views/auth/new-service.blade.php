@@ -38,8 +38,21 @@
 
 @section('content')
 
-    <form
+    @if ($errors->any())
+        <div class="mb-4 p-4 rounded-lg bg-red-100 border border-red-400 text-red-700">
+            <strong>There were some problems with your input:</strong>
+            <ul class="mt-2 list-disc list-inside text-sm">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
+    <form method="POST" action="{{ route('userprofile.store') }}" enctype="multipart/form-data"
         class="max-w-5xl mx-auto bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl shadow-sm p-8 space-y-12">
+        @csrf
         <!-- Profile Section -->
         <section>
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white border-b pb-4">Upload Your Profile</h2>
@@ -424,6 +437,7 @@
                         <select id="ethnicity" name="ethnicity"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Ethnicity</option>
+                            <option value="Ethnicity">Ethnicity</option>
                         </select>
                         @error('ethnicity')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -459,6 +473,7 @@
                         <select id="bust" name="bust"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Bust Size</option>
+                            <option value="35">35</option>
                         </select>
                         @error('bust')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -472,6 +487,8 @@
                         <select id="hair_color" name="hair_color"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Hair Color</option>
+                            <option value="Black">Black</option>
+                            <option value="Browan">Browan</option>
                         </select>
                         @error('hair_color')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -485,6 +502,8 @@
                         <select id="nationality" name="nationality"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value="">Select Nationality</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Rushian">Rushian</option>
                         </select>
                         @error('nationality')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>

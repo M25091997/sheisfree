@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,7 +31,12 @@ Route::get('/dashboard', function () {
 Route::get('/profile', function () {
     return view('auth.profile');
 })->middleware(['auth'])->name('profile');
+Route::get('/profile', function () {
+    return view('auth.profile');
+})->middleware(['auth'])->name('profiles.index');
 
 Route::get('/listing/new-service', function () {
     return view('auth.new-service');
 })->middleware(['auth'])->name('auth.newservice');
+
+Route::post('/listing/new-service', [UserProfileController::class, 'store'])->middleware(['auth'])->name('userprofile.store');
